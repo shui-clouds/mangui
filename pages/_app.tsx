@@ -6,7 +6,7 @@ import Head from 'next/head'
 function MyApp({ Component, pageProps }: AppProps) {
   const description =
     'Become a chubby butterfly!'
-  const title = 'Chubby Butterfly'
+  const title = 'Mangui'
   const imageMetaURL = 'https://cdn-icons-png.flaticon.com/512/235/235423.png'
 
   return (
