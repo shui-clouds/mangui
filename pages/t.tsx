@@ -3,6 +3,9 @@ import { InferGetServerSidePropsType } from "next"
 import type React from "react"
 import { inferQueryResponse } from "./api/trpc/[trpc]"
 import TenantCard from '@/components/tenants/Card'
+import { createGetInitialProps } from '@mantine/next'
+const getInitialProps = createGetInitialProps()
+
 
 export default function Home2() {
 
