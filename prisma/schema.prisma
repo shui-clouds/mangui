@@ -1,16 +1,83 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "mysql"
-  url = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
 }
 
+enum Status {
+  UNREGISTERED // Has not yet signed the contract or paid deposit
+  CURRENT
+  FUTURE // Deposit paid but moving in at a future time
+  VACATED
+}
+
+enum Expense {
+  WATER
+  GAS_ELECTRICITY
+  INTERNET
+  HEATING
+  COUNCIL_TAX
+  BUSINESS_BANK_CHARGE
+  ADVERTISEMENT
+  MORTGAGE_REPAYMENT
+  PROPERTY_INSURANCE
+}
+
+model PropertyExpense {
+  id           String   @id @default(cuid())
+  type         Expense
+  amount       Int      @default(0)
+  date         DateTime
+  reference    String?
+  property     Property @relation(fields: [propertyName], references: [name])
+  propertyName String
+
+  // Quickly find payment reference
+  @@index([date, amount])
+  @@index([propertyName, type])
+}
+
+model Property {
+  id       String            @id @default(cuid())
+  name     String            @unique
+  address  String            @unique
+  rooms    Room[]
+  expenses PropertyExpense[]
+
+  @@index([name])
+}
+
+model Room {
+  id                String   @id @default(cuid())
+  number            Int
+  description       String?
+  property          Property @relation(fields: [property_name], references: [name])
+  property_name     String
+  tenant            Tenant?  @relation(fields: [tenant_first_name, tenant_last_name], references: [first_name, last_name])
+  tenant_first_name String?
+  tenant_last_name  String?
+
+  @@unique([property_name, number])
+  @@unique([tenant_first_name, tenant_last_name])
+  @@index([property_name, number])
+  @@index([tenant_first_name])
+}
+
+// Contract
 model Tenant {
-  id    Int    @id @default(autoincrement())
-  name  String
-  balance Int
+  id         String   @id @default(cuid())
+  balance    Int      @default(0)
+  first_name String
+  last_name  String
+  email      String?  @unique
+  createdAt  DateTime @default(now())
+  room       Room?
+
+  @@unique([first_name, last_name])
+  @@index([first_name, last_name])
 }

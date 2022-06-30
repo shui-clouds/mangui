@@ -1,5 +1,5 @@
 import * as trpc from "@trpc/server";
-import { z } from "zod";
+import { date, z } from "zod";
 import { prisma } from "@/backend/utils/prisma";
 
 export const appRouter = trpc
@@ -11,7 +11,7 @@ export const appRouter = trpc
     },
   })
   .query('get-tenant', {
-    input: z.number().min(0),
+    input: z.string(),
     async resolve(req) {
       const tenant = await prisma.tenant.findUnique({
         where: { id: req.input }
@@ -22,13 +22,19 @@ export const appRouter = trpc
   })
   .mutation("create-tenant", {
     input: z.object({
-      name: z.string().min(2),
+      first_name: z.string().min(2),
+      last_name: z.string().min(2),
+      email: z.string(),
+      createdAt: z.date(),
       balance: z.number(),
     }),
     async resolve({ input }) {
       const tenant = await prisma.tenant.create({
         data: {
-          name: input.name,
+          first_name: input.first_name,
+          last_name: input.last_name,
+          email: input.email,
+          createdAt: input.createdAt,
           balance: input.balance,
         },
       });
