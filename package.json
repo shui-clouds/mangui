@@ -10,6 +10,9 @@
     "postinstall": "prisma generate",
     "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\""
   },
+  "files": [
+    ".eslintrc"
+  ],
   "dependencies": {
     "@mantine/core": "^4.2.11",
     "@mantine/dates": "^4.2.11",
@@ -35,8 +38,18 @@
     "zod": "^3.11.6"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^12.1.6",
     "@types/react": "17.0.37",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
     "autoprefixer": "^10.4.7",
+    "eslint": "^8.18.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "postcss": "^8.4.14",
     "prisma": "^3.5.0",
     "tailwindcss": "^3.1.4",
