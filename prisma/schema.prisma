@@ -53,31 +53,39 @@ model Property {
 }
 
 model Room {
-  id                String   @id @default(cuid())
-  number            Int
-  description       String?
-  property          Property @relation(fields: [property_name], references: [name])
-  property_name     String
-  tenant            Tenant?  @relation(fields: [tenant_first_name, tenant_last_name], references: [first_name, last_name])
-  tenant_first_name String?
-  tenant_last_name  String?
+  id            String   @id @default(cuid())
+  number        Int
+  description   String?
+  property      Property @relation(fields: [property_name], references: [name])
+  property_name String
+  tenant        Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId      String?  @unique
 
   @@unique([property_name, number])
-  @@unique([tenant_first_name, tenant_last_name])
   @@index([property_name, number])
-  @@index([tenant_first_name])
 }
 
-// Contract
 model Tenant {
-  id         String   @id @default(cuid())
-  balance    Int      @default(0)
-  first_name String
-  last_name  String
-  email      String?  @unique
-  createdAt  DateTime @default(now())
-  room       Room?
+  id          String        @id @default(cuid())
+  balance     Int           @default(0)
+  name        String
+  email       String?       @unique
+  createdAt   DateTime      @default(now())
+  transactions Transaction[]
+  room        Room?
 
-  @@unique([first_name, last_name])
-  @@index([first_name, last_name])
+  @@index([name])
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  reference String
+  amount    Int
+  date      DateTime @default(now())
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId  String
+
+
+  // Quickly find payment reference
+  @@index([amount])
 }

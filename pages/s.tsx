@@ -1,28 +1,26 @@
-import type React from "react"
-import { InferGetServerSidePropsType } from "next"
-import { prisma } from "@/backend/utils/prisma"
-import TenantCard from "@/components/tenants/Card"
+import type React from 'react'
+import {InferGetServerSidePropsType} from 'next'
+import {prisma} from '@/backend/utils/prisma'
+import InfoCard from '@/components/tenants/Info'
 
-export default function Home({ currentTenantsData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Home({currentTenantsData}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	console.dir(currentTenantsData)
+	return (
+		<>
+			{currentTenantsData.length && currentTenantsData.map((tenant) => (
+				<InfoCard key={tenant.id} tenant={tenant} />
+			))}
 
-  console.dir(currentTenantsData)
-  return (
-    <>
-      {currentTenantsData.length && currentTenantsData.map((tenant) => (
-        <TenantCard key={tenant.id} tenant={tenant} />
-      ))}
-      
-    </>
-  )
+		</>
+	)
 }
 
 export async function getServerSideProps() {
+	const currentTenantsData = await prisma.tenant.findMany()
 
-  const currentTenantsData = await prisma.tenant.findMany()
-
-  return {
-    props: {
-      currentTenantsData
-    }
-  }
+	return {
+		props: {
+			currentTenantsData,
+		},
+	}
 }
