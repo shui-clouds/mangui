@@ -1,11 +1,14 @@
 import type React from 'react'
 import {useRouter} from 'next/router'
+import {Group, Button} from '@mantine/core'
 import {trpc} from '@/utils/trpc'
 import SummaryCard from '@/components/tenants/SummaryCard'
 import TransactionTable from '@/components/tenants/TransactionTable'
-import DetailsModal from '@/components/tenants/DetailsModal'
+import TenantModal from '@/components/tenants/TenantModal'
 
 export default function TenantPage() {
+	// const [opened, setOpened] = useState(false)
+
 	const router = useRouter()
 
 	const {tenantId} = router.query
@@ -22,15 +25,17 @@ export default function TenantPage() {
 
 	if (isLoading || !tenant) return 'LODING WAAAA'
 	console.dir(tenant)
+
 	return (
 		<div className='container m-10'>
 
-			<DetailsModal title='New Tenant' submitButtonName='Register' />
+			<TenantModal props={{title: 'New Tenant', triggerButtonName: 'Add Tenant', confirmButtonName: 'Register'}} />
 
 			<SummaryCard tenant={tenant} />
-			<button type='button' className='my-3 bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded'>
-				New Transaction
-			</button>
+			{/* <Group className='my-2'>
+				<Button radius='md' size='md' color='green' variant='light' onClick={() => setOpened(true)}>New Transaction</Button>
+			</Group> */}
+			<TenantModal props={{title: 'New Transaction', triggerButtonName: 'New Transaction', confirmButtonName: 'Register'}} />
 			<TransactionTable transactions={tenant.transactions} />
 		</div>
 	)

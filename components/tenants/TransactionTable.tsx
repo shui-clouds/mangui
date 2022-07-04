@@ -1,3 +1,4 @@
+import {TextInput, Paper, Table, Button} from '@mantine/core'
 import React from 'react'
 import {InferQueryResponse} from '../../pages/api/trpc/[trpc]'
 

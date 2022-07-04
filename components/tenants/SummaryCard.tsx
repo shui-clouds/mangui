@@ -1,3 +1,4 @@
+import {Group, Button} from '@mantine/core'
 import React from 'react'
 import {InferQueryResponse} from '../../pages/api/trpc/[trpc]'
 
@@ -10,9 +11,7 @@ export default function SummaryCard({tenant}: {tenant: Tenant}) {
 			<p className='text-2xl m-2 font-semibold text-black'>£{tenant.balance}</p>
 			{tenant.email && <p className='text-2xl m-2 font-semibold text-black'>{tenant.email}</p>}
 			<div className='flex'>
-				<button type='button' className='mt-3 bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 px-4 rounded inline-flex items-center'>
-					Edit
-				</button>
+				<Button radius='md' color='orange' variant='light' onClick={() => console.log('hello')}>Edit Details</Button>
 			</div>
 		</div>
 	)
