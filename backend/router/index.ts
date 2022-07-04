@@ -30,6 +30,7 @@ export const appRouter = trpc
 			return transactions
 		},
 	})
+	// Tenant inputs variable
 	.mutation('create-tenant', {
 		input: z.object({
 			name: z.string().min(2),
@@ -47,6 +48,46 @@ export const appRouter = trpc
 				},
 			})
 			return {success: true, tenant}
+		},
+	})
+	.mutation('update-tenant', {
+		input: z.object({
+			id: z.string().min(1),
+			name: z.string().min(2),
+			email: z.string(),
+			balance: z.number(),
+		}),
+		async resolve(req) {
+			const updateTenant = await prisma.tenant.update({
+				where: {
+					id: req.input.id,
+				},
+				data: {
+					name: req.input.name,
+					email: req.input.email,
+					balance: req.input.balance,
+				},
+			})
+			return {success: true, updateTenant}
+		},
+	})
+	.mutation('create-transaction', {
+		input: z.object({
+			reference: z.string(),
+			amount: z.number().min(1),
+			date: z.string(),
+			tenantId: z.string(),
+		}),
+		async resolve({input}) {
+			const transaction = await prisma.transaction.create({
+				data: {
+					reference: input.reference,
+					amount: input.amount,
+					date: input.date,
+					tenantId: input.tenantId,
+				},
+			})
+			return {success: true, transaction}
 		},
 	})
 
