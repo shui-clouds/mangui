@@ -34,7 +34,7 @@ export const appRouter = trpc
 		input: z.object({
 			name: z.string().min(2),
 			email: z.string(),
-			createdAt: z.date(),
+			createdAt: z.string(),
 			balance: z.number(),
 		}),
 		async resolve({input}) {

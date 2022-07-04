@@ -3,6 +3,7 @@ import {withTRPC} from '@trpc/next'
 import type {AppProps} from 'next/app'
 import Head from 'next/head'
 import {MantineProvider} from '@mantine/core'
+import {ModalsProvider} from '@mantine/modals'
 import type {AppRouter} from '@/backend/router'
 
 function MyApp({Component, pageProps}: AppProps) {
@@ -18,7 +19,10 @@ function MyApp({Component, pageProps}: AppProps) {
 				withNormalizeCSS
 				emotionOptions={{key: 'mantine', prepend: false}}
 			>
-				<Component {...pageProps} />
+				<ModalsProvider>
+
+					<Component {...pageProps} />
+				</ModalsProvider>
 			</MantineProvider>
 		</>
 	)
@@ -34,16 +38,16 @@ function getBaseUrl() {
 export default withTRPC<AppRouter>({
 	config({ctx}) {
 		/**
-     * If you want to use SSR, you need to use the server's full URL
-     * @link https://trpc.io/docs/ssr
-     */
+	 * If you want to use SSR, you need to use the server's full URL
+	 * @link https://trpc.io/docs/ssr
+	 */
 		const url = `${getBaseUrl()}/api/trpc`
 
 		return {
 			url,
 			/**
-       * @link https://react-query.tanstack.com/reference/QueryClient
-       */
+	   * @link https://react-query.tanstack.com/reference/QueryClient
+	   */
 			// queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
 		}
 	},

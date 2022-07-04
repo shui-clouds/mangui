@@ -1,7 +1,7 @@
 import React from 'react'
-import {inferQueryResponse} from '../../pages/api/trpc/[trpc]'
+import {InferQueryResponse} from '../../pages/api/trpc/[trpc]'
 
-type Transactions = inferQueryResponse<'get-transactions'>
+type Transactions = InferQueryResponse<'get-transactions'>
 
 export default function TransactionTable({transactions}: {transactions: Transactions}) {
 	const colNames = ['Amount', 'Reference', 'Date']

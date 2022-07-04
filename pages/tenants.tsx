@@ -2,8 +2,8 @@ import {InferGetServerSidePropsType} from 'next'
 import type React from 'react'
 import {Button} from '@mantine/core'
 import {trpc} from '@/utils/trpc'
-import {inferQueryResponse} from './api/trpc/[trpc]'
-import InfoCard from '@/components/tenants/Info'
+import {InferQueryResponse} from './api/trpc/[trpc]'
+import SummaryCard from '@/components/tenants/SummaryCard'
 
 export default function Home2() {
 	const {
@@ -23,7 +23,7 @@ export default function Home2() {
 			<Button className='bg-red-400'>Hello</Button>
 
 			{currentTenants?.length && currentTenants.map((tenant) => (
-				<InfoCard tenant={tenant} key={tenant.id} />
+				<SummaryCard tenant={tenant} key={tenant.id} />
 			))}
 
 		</div>
