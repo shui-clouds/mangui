@@ -1,13 +1,17 @@
 import type React from 'react'
 import {useRouter} from 'next/router'
+import {Group, Button, LoadingOverlay} from '@mantine/core'
+import {useModals} from '@mantine/modals'
 import {Group, Button} from '@mantine/core'
 import {trpc} from '@/utils/trpc'
 import SummaryCard from '@/components/tenants/SummaryCard'
 import TransactionTable from '@/components/tenants/TransactionTable'
+import TenantForm from '@/components/tenants/TenantForm'
 import TenantModal from '@/components/tenants/TenantModal'
 
 export default function TenantPage() {
 	// const [opened, setOpened] = useState(false)
+	const modals = useModals()
 
 	const router = useRouter()
 
@@ -24,18 +28,43 @@ export default function TenantPage() {
 	})
 
 	if (isLoading || !tenant) return 'LODING WAAAA'
+
 	console.dir(tenant)
+
+	// notifyAndRefetch({
+	// 	id: 'save-tenant-data',
+	// 	updateTitle: 'Try again!',
+	// 	updateMessage: 'fail',
+	// 	color: 'red',
+	// })
+
+	const openContentModal = () => {
+		const id = modals.openModal({
+			title: tenant.name,
+			children: <TenantForm
+				tenantId={tenant.id}
+				onConfirmHandler={async () => {
+					modals.closeModal(id)
+					// call from form??
+					notifyAndRefetch({
+						id: 'save-tenant-data',
+						updateMessage: 'Changes have been saved.',
+						handler: refetch,
+						color: 'teal',
+					})
+				}}
+			/>,
+		})
+	}
 
 	return (
 		<div className='container m-10'>
-
-			<TenantModal props={{title: 'New Tenant', triggerButtonName: 'Add Tenant', confirmButtonName: 'Register'}} />
-
+			<Button color='green' variant='light' radius='md' size='md' onClick={openContentModal}>Edit</Button>
 			<SummaryCard tenant={tenant} />
 			{/* <Group className='my-2'>
 				<Button radius='md' size='md' color='green' variant='light' onClick={() => setOpened(true)}>New Transaction</Button>
 			</Group> */}
-			<TenantModal props={{title: 'New Transaction', triggerButtonName: 'New Transaction', confirmButtonName: 'Register'}} />
+			<Button color='green' variant='light' radius='md' size='md' onClick={openContentModal}>Add Tenant</Button>
 			<TransactionTable transactions={tenant.transactions} />
 		</div>
 	)
