@@ -20,11 +20,6 @@ export default function TransactionModal({props}: {props: TransactionProps}) {
 	const [visible, setVisible] = useState(false)
 	const createTransactionMutation = trpc.useMutation('create-transaction')
 
-	const CreateTransaction = async (values: CreateMutationInput) => {
-		createTransactionMutation.mutate({
-			...values,
-		})
-	}
 	const mantineForm = useForm({
 		initialValues: {
 			reference: '',
@@ -50,7 +45,9 @@ export default function TransactionModal({props}: {props: TransactionProps}) {
 				<form
 					style={{marginBottom: 10}}
 					onSubmit={mantineForm.onSubmit((values) => {
-						CreateTransaction(values)
+						createTransactionMutation.mutate({
+							...values,
+						})
 						if (!createTransactionMutation.isLoading) setOpened(false)
 					})}
 				>

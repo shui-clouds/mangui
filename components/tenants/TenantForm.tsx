@@ -5,6 +5,7 @@ import {Button, TextInput, Box, Group, Alert} from '@mantine/core'
 import {useForm} from '@mantine/form'
 import {trpc} from '@/utils/trpc'
 import {InferMutationInput} from '@/pages/api/trpc/[trpc]'
+import {notifyAndRefetch} from '@/lib/component-helper'
 
 type CreateMutationInput = InferMutationInput<'create-tenant'>
 

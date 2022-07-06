@@ -4,6 +4,7 @@ import type {AppProps} from 'next/app'
 import Head from 'next/head'
 import {MantineProvider} from '@mantine/core'
 import {ModalsProvider} from '@mantine/modals'
+import {NotificationsProvider} from '@mantine/notifications'
 import type {AppRouter} from '@/backend/router'
 
 function MyApp({Component, pageProps}: AppProps) {
@@ -20,8 +21,10 @@ function MyApp({Component, pageProps}: AppProps) {
 				emotionOptions={{key: 'mantine', prepend: false}}
 			>
 				<ModalsProvider>
+					<NotificationsProvider>
 
-					<Component {...pageProps} />
+						<Component {...pageProps} />
+					</NotificationsProvider>
 				</ModalsProvider>
 			</MantineProvider>
 		</>

@@ -2,12 +2,12 @@ import type React from 'react'
 import {useRouter} from 'next/router'
 import {Group, Button, LoadingOverlay} from '@mantine/core'
 import {useModals} from '@mantine/modals'
-import {Group, Button} from '@mantine/core'
+import {showNotification, updateNotification} from '@mantine/notifications'
 import {trpc} from '@/utils/trpc'
 import SummaryCard from '@/components/tenants/SummaryCard'
 import TransactionTable from '@/components/tenants/TransactionTable'
 import TenantForm from '@/components/tenants/TenantForm'
-import TenantModal from '@/components/tenants/TenantModal'
+import {notifyAndRefetch} from '@/lib/component-helper'
 
 export default function TenantPage() {
 	// const [opened, setOpened] = useState(false)
