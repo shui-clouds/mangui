@@ -1,6 +1,6 @@
 import type React from 'react'
 import {useRouter} from 'next/router'
-import {Button} from '@mantine/core'
+import {Title} from '@mantine/core'
 import {useModals} from '@mantine/modals'
 import {trpc} from '@/utils/trpc'
 import SummaryCard from '@/components/tenants/SummaryCard'
@@ -33,7 +33,7 @@ export default function TenantPage() {
 		const id = modals.openModal({
 			title: tenant.name,
 			children: <TenantForm
-				tenantId={tenant.id}
+				tenant={tenant}
 				onSuccessHandler={() => {
 					refetch()
 					modals.closeModal(id)
@@ -44,12 +44,8 @@ export default function TenantPage() {
 
 	return (
 		<div className='container m-10'>
-			<Button color='green' variant='light' radius='md' size='md' onClick={openContentModal}>Edit</Button>
-			<SummaryCard tenant={tenant} />
-			{/* <Group className='my-2'>
-				<Button radius='md' size='md' color='green' variant='light' onClick={() => setOpened(true)}>New Transaction</Button>
-			</Group> */}
-			<Button color='green' variant='light' radius='md' size='md' onClick={openContentModal}>Add Tenant</Button>
+			<Title style={{marginBottom: 15}} order={2}>Overview</Title>
+			<SummaryCard tenant={tenant} handler={openContentModal} />
 			<TransactionTable transactions={tenant.transactions} />
 		</div>
 	)
