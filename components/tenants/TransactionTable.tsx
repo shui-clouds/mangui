@@ -1,48 +1,48 @@
-import {TextInput, Paper, Table, Button} from '@mantine/core'
+import {Table, Card, Title, Divider, Group, ActionIcon} from '@mantine/core'
 import React from 'react'
+import {Cash, Pencil, Plus} from 'tabler-icons-react'
 import {InferQueryResponse} from '../../pages/api/trpc/[trpc]'
 
 type Transactions = InferQueryResponse<'get-transactions'>
+type Transaction = Transactions[number]
 
 export default function TransactionTable({transactions}: {transactions: Transactions}) {
-	const colNames = ['Amount', 'Reference', 'Date']
-
-	const rows = transactions.map((transaction) => (
-		<tr className='bg-white border-b ' key={transaction.id}>
-			<td className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap'>
-				{transaction.amount}
-			</td>
-			<td className='px-6 py-4'>
-				{transaction.reference}
-			</td>
-			<td className='px-6 py-4'>
-				{transaction.date}
-			</td>
-			<td className='px-10 py-4'>
-				<a href='#' className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>Edit</a>
+	const rows = transactions.map((t: Transaction) => (
+		<tr key={t.id}>
+			<td>{t.amount}</td>
+			<td>{t.reference}</td>
+			<td>{t.date}</td>
+			<td>
+				<ActionIcon variant='transparent'>
+					<Pencil color='gray' />
+				</ActionIcon>
 			</td>
 		</tr>
 	))
-
 	return (
-		<div className='relative overflow-x-auto shadow-sm sm:rounded-lg'>
-			<table className='w-full text-sm text-left text-gray-500'>
-				<thead className='text-xs text-gray-700 uppercase bg-gray-50 '>
+		<Card style={{marginBottom: 10}} withBorder radius='md' p='md'>
+			<Group position='apart'>
+
+				<Group position='left' spacing='xs'>
+					<Cash color='teal' />
+					<Title order={4}>Transactions</Title>
+				</Group>
+				<ActionIcon variant='transparent'>
+					<Plus color='teal' size={30} />
+				</ActionIcon>
+			</Group>
+			<Divider variant='dashed' size='sm' my='sm' />
+			<Table verticalSpacing='sm' horizontalSpacing='sm' fontSize='md'>
+				<thead>
 					<tr>
-						{colNames.map((name: string) => (
-							<th scope='col' className='px-6 py-3' key={name}>
-								{name}
-							</th>
-						))}
-						<th scope='col' className='px-6 py-3'>
-							<span className='sr-only'>Edit</span>
-						</th>
+						<th>Amount</th>
+						<th>Reference</th>
+						<th>Date</th>
+						<th> </th>
 					</tr>
 				</thead>
-				<tbody>
-					{rows}
-				</tbody>
-			</table>
-		</div>
+				<tbody>{rows}</tbody>
+			</Table>
+		</Card>
 	)
 }
