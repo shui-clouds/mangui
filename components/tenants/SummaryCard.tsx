@@ -36,15 +36,15 @@ export default function SummaryCard({tenant, handler}: {tenant: Tenant, handler:
 
 					<Group position='left' spacing='xs'>
 						<BuildingBank color='teal' />
-						<Text weight={700} color='teal'>£{tenant.balance}</Text>
+						<Text weight={600} color='teal'>£{tenant.balance}</Text>
 					</Group>
 					<Group position='left' spacing='xs'>
 						<DoorEnter color='orange' />
-						<Text weight={600} color='gray'>2nd April 2021</Text>
+						<Text weight={500} color='gray'>2nd April 2021</Text>
 					</Group>
 					<Group position='left' spacing='xs'>
 						<DoorExit color='orange' />
-						<Text weight={600} color='gray'>12th November 2022</Text>
+						<Text weight={500} color='gray'>12th November 2022</Text>
 						<Text weight={400} color='gray'>1 month, 2 days remaining</Text>
 					</Group>
 				</Stack>
