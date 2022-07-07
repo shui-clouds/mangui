@@ -38,7 +38,8 @@ export default function Home2() {
 			<Button color='green' variant='light' radius='md' size='md' onClick={openContentModal}>New Tenant</Button>
 
 			{currentTenants?.length && currentTenants.map((tenant) => (
-				<SummaryCard tenant={tenant} key={tenant.id} />
+				<SummaryCard tenant={tenant} handler={openContentModal} />
+
 			))}
 
 		</div>
