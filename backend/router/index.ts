@@ -30,6 +30,16 @@ export const appRouter = trpc
 			return transactions
 		},
 	})
+	.query('get-transaction', {
+		input: z.string(),
+		async resolve(req) {
+			const transaction = await prisma.transaction.findUnique({
+				where: {id: req.input},
+			})
+			if (!transaction) throw Error(`No transaction found with id ${req.input}`)
+			return transaction
+		},
+	})
 	// Tenant inputs variable
 	.mutation('create-tenant', {
 		input: z.object({
@@ -78,16 +88,40 @@ export const appRouter = trpc
 			date: z.string(),
 			tenantId: z.string(),
 		}),
-		async resolve({input}) {
+		async resolve(req) {
 			const transaction = await prisma.transaction.create({
 				data: {
-					reference: input.reference,
-					amount: input.amount,
-					date: input.date,
-					tenantId: input.tenantId,
+					reference: req.input.reference,
+					amount: req.input.amount,
+					date: req.input.date,
+					tenantId: req.input.tenantId,
 				},
 			})
 			return {success: true, transaction}
+		},
+	})
+	// re-use objects
+	.mutation('update-transaction', {
+		input: z.object({
+			id: z.string(),
+			reference: z.string(),
+			amount: z.number().min(1),
+			date: z.string(),
+			tenantId: z.string(),
+		}),
+		async resolve(req) {
+			const updatedTransaction = await prisma.transaction.update({
+				where: {
+					id: req.input.id,
+				},
+				data: {
+					reference: req.input.reference,
+					amount: req.input.amount,
+					date: req.input.date,
+					tenantId: req.input.tenantId,
+				},
+			})
+			return {success: true, updatedTransaction}
 		},
 	})
 
