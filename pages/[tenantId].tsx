@@ -1,13 +1,11 @@
 import type React from 'react'
 import {useRouter} from 'next/router'
-import {Group, Button, LoadingOverlay} from '@mantine/core'
+import {Button} from '@mantine/core'
 import {useModals} from '@mantine/modals'
-import {showNotification, updateNotification} from '@mantine/notifications'
 import {trpc} from '@/utils/trpc'
 import SummaryCard from '@/components/tenants/SummaryCard'
 import TransactionTable from '@/components/tenants/TransactionTable'
 import TenantForm from '@/components/tenants/TenantForm'
-import {notifyAndRefetch} from '@/lib/component-helper'
 
 export default function TenantPage() {
 	// const [opened, setOpened] = useState(false)
@@ -31,27 +29,14 @@ export default function TenantPage() {
 
 	console.dir(tenant)
 
-	// notifyAndRefetch({
-	// 	id: 'save-tenant-data',
-	// 	updateTitle: 'Try again!',
-	// 	updateMessage: 'fail',
-	// 	color: 'red',
-	// })
-
 	const openContentModal = () => {
 		const id = modals.openModal({
 			title: tenant.name,
 			children: <TenantForm
 				tenantId={tenant.id}
-				onConfirmHandler={async () => {
+				onSuccessHandler={() => {
+					refetch()
 					modals.closeModal(id)
-					// call from form??
-					notifyAndRefetch({
-						id: 'save-tenant-data',
-						updateMessage: 'Changes have been saved.',
-						handler: refetch,
-						color: 'teal',
-					})
 				}}
 			/>,
 		})

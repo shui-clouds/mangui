@@ -1,33 +1,17 @@
-import {showNotification, updateNotification} from '@mantine/notifications'
+import {showNotification} from '@mantine/notifications'
 
 type NotificationInput = {
-	id: string,
-	color: string,
-	loadingTitle?: string,
-	updateTitle?: string,
-	loadingMessage?: string,
-	updateMessage?: string,
-	handler?: () => void
+	message?: string,
+	success: boolean,
 }
 
-export const notifyAndRefetch = (data: NotificationInput) => {
+export const sendNotification = (data: NotificationInput) => {
 	showNotification({
-		id: data.id,
-		loading: true,
-		title: data.loadingTitle ?? 'Saving Changes...',
-		message: data.loadingMessage ?? '',
-		autoClose: false,
-		disallowClose: true,
+		id: data.message,
+		title: data.success ? 'Done!' : 'Try again!',
+		message: data.message ?? (data.success ? 'Changes have been updated.' : 'Your changes could not be saved.'),
+		color: data.success ? 'teal' : 'red',
+		autoClose: 5000,
+		disallowClose: false,
 	})
-	setTimeout(() => {
-		if (data.handler) data.handler()
-		updateNotification({
-			id: data.id,
-			color: data.color,
-			title: data.updateTitle ?? 'Success!',
-			message: data.updateMessage ?? '',
-			//   icon: <CheckIcon />,
-			autoClose: 2000,
-		})
-	}, 2000)
 }
