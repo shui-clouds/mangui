@@ -1,38 +1,38 @@
 import React from 'react'
 
-import {Button, TextInput, Group} from '@mantine/core'
+import {Button, TextInput, Group, NumberInput} from '@mantine/core'
 
 import {useForm} from '@mantine/form'
 import {trpc} from '@/utils/trpc'
 import {InferQueryResponse} from '@/pages/api/trpc/[trpc]'
 import {sendNotification} from '@/lib/component-helper'
 
-type Tenant = InferQueryResponse<'get-tenant'>
+type Transaction = InferQueryResponse<'get-transaction'>
 
-export default function TenantForm({tenant, onSuccessHandler}: {tenant?: Tenant, onSuccessHandler: (error?: string) => void}) {
-	const tenantForm = useForm({
+export default function TransactionForm({transaction, tenantId, onSuccessHandler}: {
+	transaction?: Transaction, tenantId: string, onSuccessHandler: (error?: string) => void}) {
+	const transactionForm = useForm({
 		initialValues: {
-			name: tenant ? tenant.name : '',
-			email: tenant ? tenant.email : '',
-			balance: 0,
-			createdAt: '',
+			amount: transaction ? transaction.amount : 0,
+			reference: transaction ? transaction.reference : '',
+			date: transaction ? transaction.date : '',
 		},
 	})
 
-	const updateTenantMutation = trpc.useMutation('update-tenant', {
+	const updateTransactionMutation = trpc.useMutation('update-transaction', {
 		onSuccess() {
 			onSuccessHandler()
-			sendNotification({success: true})
+			sendNotification({message: 'Transaction has been updated.', success: true})
 		},
-		onError() {
-			sendNotification({success: false})
+		onError(input) {
+			sendNotification({message: `${input.message}`, success: false})
 		},
 	})
 
-	const createTenantMutation = trpc.useMutation('create-tenant', {
-		onSuccess(input) {
+	const createTransactionMutation = trpc.useMutation('create-transaction', {
+		onSuccess() {
 			onSuccessHandler()
-			sendNotification({message: `${input.tenant.name} has been added.`, success: true})
+			sendNotification({message: 'Transaction has been added.', success: true})
 		},
 		onError(input) {
 			sendNotification({message: `${input.message}`, success: false})
@@ -42,26 +42,29 @@ export default function TenantForm({tenant, onSuccessHandler}: {tenant?: Tenant,
 	return (
 		<form
 			style={{marginBottom: 10}}
-			onSubmit={tenantForm.onSubmit((values) => {
-				if (tenant) {
-					updateTenantMutation.mutate({
+			onSubmit={transactionForm.onSubmit((values) => {
+				if (transaction) {
+					updateTransactionMutation.mutate({
 						...values,
-						email: values.email ?? '',
-						id: tenant.id,
+						tenantId: transaction.tenantId,
+						reference: values.reference ?? '',
+						id: transaction.id,
+						date: (transaction ? transaction.date : '') as string,
 					})
 				} else {
-					createTenantMutation.mutate({
+					createTransactionMutation.mutate({
 						...values,
-						email: values.email ?? '',
-						createdAt: new Date().toISOString(),
+						reference: values.reference ?? '',
+						date: new Date().toISOString(),
+						tenantId,
 					})
 				}
 			})}
 		>
-			<TextInput required style={{marginBottom: 10}} label='Full Name' placeholder='Appears on contract' {...tenantForm.getInputProps('name')} />
-			<TextInput style={{marginBottom: 10}} label='Email' placeholder='Optional' {...tenantForm.getInputProps('email')} />
+			<NumberInput hideControls required style={{marginBottom: 10}} label='Amount' placeholder='Amount in GBP' {...transactionForm.getInputProps('amount')} />
+			<TextInput style={{marginBottom: 10}} label='Reference' placeholder='Optional' {...transactionForm.getInputProps('reference')} />
 			<Group position='right' mt='md'>
-				<Button variant='light' disabled={updateTenantMutation.isLoading} type='submit'>{tenant ? 'Save' : 'Register'}</Button>
+				<Button variant='light' color={transaction ? 'blue' : 'green'} disabled={updateTransactionMutation.isLoading || createTransactionMutation.isLoading} type='submit'>{transaction ? 'Save' : 'Add'}</Button>
 			</Group>
 		</form>
 	)

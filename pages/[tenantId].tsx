@@ -1,11 +1,15 @@
 import type React from 'react'
 import {useRouter} from 'next/router'
-import {Title} from '@mantine/core'
+import {Container, Title} from '@mantine/core'
 import {useModals} from '@mantine/modals'
 import {trpc} from '@/utils/trpc'
 import SummaryCard from '@/components/tenants/SummaryCard'
-import TransactionTable from '@/components/tenants/TransactionTable'
+import TransactionCard from '@/components/tenants/TransactionCard'
 import TenantForm from '@/components/tenants/TenantForm'
+import TransactionForm from '@/components/tenants/TransactionForm'
+import {InferQueryResponse} from './api/trpc/[trpc]'
+
+type Transaction = InferQueryResponse<'get-transaction'>
 
 export default function TenantPage() {
 	// const [opened, setOpened] = useState(false)
@@ -29,7 +33,7 @@ export default function TenantPage() {
 
 	console.dir(tenant)
 
-	const openContentModal = () => {
+	const openTenantEditModal = () => {
 		const id = modals.openModal({
 			title: tenant.name,
 			children: <TenantForm
@@ -42,11 +46,25 @@ export default function TenantPage() {
 		})
 	}
 
+	const openTransactionModal = (transaction?: Transaction) => {
+		const id = modals.openModal({
+			title: transaction ? 'Edit Transaction' : 'Add Transaction',
+			children: <TransactionForm
+				tenantId={tenant.id}
+				transaction={transaction || undefined}
+				onSuccessHandler={() => {
+					refetch()
+					modals.closeModal(id)
+				}}
+			/>,
+		})
+	}
+
 	return (
-		<div className='container m-10'>
-			<Title style={{marginBottom: 15}} order={2}>Overview</Title>
-			<SummaryCard tenant={tenant} handler={openContentModal} />
-			<TransactionTable transactions={tenant.transactions} />
-		</div>
+		<Container style={{marginBottom: 25}} size='md'>
+			<Title style={{marginBottom: 15, marginTop: 25}} order={2}>Overview</Title>
+			<SummaryCard tenant={tenant} handler={openTenantEditModal} />
+			<TransactionCard transactions={tenant.transactions} handler={openTransactionModal} />
+		</Container>
 	)
 }
