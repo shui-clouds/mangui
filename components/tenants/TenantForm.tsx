@@ -9,7 +9,7 @@ import {sendNotification} from '@/lib/component-helper'
 
 type Tenant = InferQueryResponse<'get-tenant'>
 
-export default function TenantForm({tenant, onSuccessHandler}: {tenant?: Tenant, onSuccessHandler: (error?: string) => void}) {
+export default function TenantForm({tenant, onSuccessHandler}: {tenant?: Tenant, onSuccessHandler: () => void}) {
 	const tenantForm = useForm({
 		initialValues: {
 			name: tenant ? tenant.name : '',

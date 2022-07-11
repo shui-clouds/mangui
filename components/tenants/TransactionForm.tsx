@@ -10,7 +10,7 @@ import {sendNotification} from '@/lib/component-helper'
 type Transaction = InferQueryResponse<'get-transaction'>
 
 export default function TransactionForm({transaction, tenantId, onSuccessHandler}: {
-	transaction?: Transaction, tenantId: string, onSuccessHandler: (error?: string) => void}) {
+	transaction?: Transaction, tenantId: string, onSuccessHandler: () => void}) {
 	const transactionForm = useForm({
 		initialValues: {
 			amount: transaction ? transaction.amount : 0,
