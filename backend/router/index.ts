@@ -44,7 +44,7 @@ export const appRouter = trpc
 	.mutation('create-tenant', {
 		input: z.object({
 			name: z.string().min(2),
-			email: z.string(),
+			email: z.string().optional(),
 			createdAt: z.string(),
 			balance: z.number(),
 		}),
@@ -64,7 +64,7 @@ export const appRouter = trpc
 		input: z.object({
 			id: z.string().min(1),
 			name: z.string().min(2),
-			email: z.string(),
+			email: z.string().optional(),
 			balance: z.number(),
 		}),
 		async resolve(req) {
