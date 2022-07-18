@@ -7,7 +7,7 @@ import SummaryCard from '@/components/tenants/SummaryCard'
 import TransactionCard from '@/components/tenants/TransactionCard'
 import TenantForm from '@/components/tenants/TenantForm'
 import TransactionForm from '@/components/tenants/TransactionForm'
-import {InferQueryResponse} from './api/trpc/[trpc]'
+import {InferQueryResponse} from '../api/trpc/[trpc]'
 
 type Transaction = InferQueryResponse<'get-transaction'>
 
