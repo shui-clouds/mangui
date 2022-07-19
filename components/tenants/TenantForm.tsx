@@ -5,7 +5,7 @@ import {Button, TextInput, Group} from '@mantine/core'
 import {useForm} from '@mantine/form'
 import {trpc} from '@/utils/trpc'
 import {InferQueryResponse} from '@/pages/api/trpc/[trpc]'
-import {sendNotification} from '@/lib/component-helper'
+import {sendNotification} from '@/lib/notifications'
 
 type Tenant = InferQueryResponse<'get-tenant'>
 
