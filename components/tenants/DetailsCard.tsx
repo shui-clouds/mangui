@@ -5,7 +5,7 @@ import {InferQueryResponse} from '../../pages/api/trpc/[trpc]'
 
 type Tenant = InferQueryResponse<'get-tenants'>[number]
 
-export default function SummaryCard({tenant, handler}: {tenant: Tenant, handler: () => void}) {
+export default function TenantDetailsCard({tenant, handler}: {tenant: Tenant, handler: () => void}) {
 	return (
 		<Card style={{marginBottom: 10}} withBorder radius='md' p='md'>
 			<Container>
