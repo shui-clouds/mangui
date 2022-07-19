@@ -2,10 +2,10 @@ import type React from 'react'
 import {useModals} from '@mantine/modals'
 import {Button} from '@mantine/core'
 import {trpc} from '@/utils/trpc'
-import SummaryCard from '@/components/tenants/SummaryCard'
+import TenantDetailsCard from '@/components/tenants/DetailsCard'
 import TenantForm from '@/components/tenants/TenantForm'
 
-export default function Home2() {
+export default function TenantsPage() {
 	const modals = useModals()
 
 	const {
@@ -38,7 +38,7 @@ export default function Home2() {
 			<Button color='green' variant='light' radius='md' size='md' onClick={openContentModal}>New Tenant</Button>
 
 			{currentTenants?.length && currentTenants.map((tenant) => (
-				<SummaryCard tenant={tenant} handler={openContentModal} />
+				<TenantDetailsCard tenant={tenant} handler={openContentModal} />
 
 			))}
 

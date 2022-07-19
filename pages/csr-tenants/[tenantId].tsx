@@ -3,16 +3,15 @@ import {useRouter} from 'next/router'
 import {Container, Title} from '@mantine/core'
 import {useModals} from '@mantine/modals'
 import {trpc} from '@/utils/trpc'
-import SummaryCard from '@/components/tenants/SummaryCard'
-import TransactionCard from '@/components/tenants/TransactionCard'
+import TenantDetailsCard from '@/components/tenants/DetailsCard'
+import TransactionCard from '@/components/transactions/TransactionCard'
 import TenantForm from '@/components/tenants/TenantForm'
-import TransactionForm from '@/components/tenants/TransactionForm'
-import {InferQueryResponse} from '../api/trpc/[trpc]'
+import TransactionForm from '@/components/transactions/TransactionForm'
+import {InferQueryResponse} from '@/pages/api/trpc/[trpc]'
 
 type Transaction = InferQueryResponse<'get-transaction'>
 
 export default function TenantPage() {
-	// const [opened, setOpened] = useState(false)
 	const modals = useModals()
 
 	const router = useRouter()
@@ -63,7 +62,7 @@ export default function TenantPage() {
 	return (
 		<Container style={{marginBottom: 25}} size='md'>
 			<Title style={{marginBottom: 15, marginTop: 25}} order={2}>Overview</Title>
-			<SummaryCard tenant={tenant} handler={openTenantEditModal} />
+			<TenantDetailsCard tenant={tenant} handler={openTenantEditModal} />
 			<TransactionCard transactions={tenant.transactions} handler={openTransactionModal} />
 		</Container>
 	)
