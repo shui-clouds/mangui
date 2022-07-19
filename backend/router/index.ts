@@ -1,46 +1,25 @@
 import * as trpc from '@trpc/server'
 import {z} from 'zod'
 import {prisma} from '@/backend/utils/prisma'
+import * as db from '@/lib/db'
 
 export const appRouter = trpc
 	.router()
 	.query('get-tenants', {
-		async resolve() {
-			const tenants = await prisma.tenant.findMany()
-			return tenants
-		},
+		resolve: db.getTenants,
 	})
 	.query('get-tenant', {
 		input: z.string(),
-		async resolve(req) {
-			const tenant = await prisma.tenant.findUnique({
-				where: {id: req.input},
-				include: {transactions: true},
-			})
-			if (!tenant) throw Error(`No tenant found with id ${req.input}`)
-			return tenant
-		},
+		resolve: (req) => db.getTenant(req.input),
 	})
 	.query('get-transactions', {
 		input: z.string(),
-		async resolve(req) {
-			const transactions = await prisma.transaction.findMany({
-				where: {tenantId: req.input},
-			})
-			return transactions
-		},
+		resolve: (req) => db.getTransactions(req.input),
 	})
 	.query('get-transaction', {
 		input: z.string(),
-		async resolve(req) {
-			const transaction = await prisma.transaction.findUnique({
-				where: {id: req.input},
-			})
-			if (!transaction) throw Error(`No transaction found with id ${req.input}`)
-			return transaction
-		},
+		resolve: (req) => db.getTransaction(req.input),
 	})
-	// Tenant inputs variable
 	.mutation('create-tenant', {
 		input: z.object({
 			name: z.string().min(2),
@@ -100,7 +79,6 @@ export const appRouter = trpc
 			return {success: true, transaction}
 		},
 	})
-	// re-use objects
 	.mutation('update-transaction', {
 		input: z.object({
 			id: z.string(),
