@@ -6,10 +6,6 @@ import {trpc} from '@/utils/trpc'
 import TenantDetailsCard from '@/components/tenants/DetailsCard'
 import TransactionCard from '@/components/transactions/TransactionCard'
 import TenantForm from '@/components/tenants/TenantForm'
-import TransactionForm from '@/components/transactions/TransactionForm'
-import {InferQueryResponse} from '@/pages/api/trpc/[trpc]'
-
-type Transaction = InferQueryResponse<'get-transaction'>
 
 export default function TenantPage() {
 	const modals = useModals()
@@ -45,25 +41,11 @@ export default function TenantPage() {
 		})
 	}
 
-	const openTransactionModal = (transaction?: Transaction) => {
-		const id = modals.openModal({
-			title: transaction ? 'Edit Transaction' : 'Add Transaction',
-			children: <TransactionForm
-				tenantId={tenant.id}
-				transaction={transaction || undefined}
-				onSuccessHandler={() => {
-					refetch()
-					modals.closeModal(id)
-				}}
-			/>,
-		})
-	}
-
 	return (
 		<Container style={{marginBottom: 25}} size='md'>
 			<Title style={{marginBottom: 15, marginTop: 25}} order={2}>Overview</Title>
 			<TenantDetailsCard tenant={tenant} handler={openTenantEditModal} />
-			<TransactionCard transactions={tenant.transactions} handler={openTransactionModal} />
+			{tenant.transactions && (<TransactionCard transactions={tenant.transactions} />)}
 		</Container>
 	)
 }
