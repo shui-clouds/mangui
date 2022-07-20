@@ -4,12 +4,11 @@ import {Cash} from 'tabler-icons-react'
 import {InferQueryResponse} from '../../pages/api/trpc/[trpc]'
 
 type Transactions = InferQueryResponse<'get-transactions'>
-type Transaction = InferQueryResponse<'get-transaction'>
 
-export default function TransactionCard({transactions}: {transactions: Transactions}) {
+export default function TransactionListCard({transactions}: {transactions: Transactions}) {
 	const transactionsTotalAmount: number = transactions.map((t) => t.amount).reduce((prev, next) => prev + next)
 
-	const rows = transactions.map((t: Transaction) => (
+	const rows = transactions.map((t) => (
 		<tr key={t.id}>
 			<td>{t.amount}</td>
 			<td><Badge color='grape'>Rent</Badge></td>
@@ -19,7 +18,6 @@ export default function TransactionCard({transactions}: {transactions: Transacti
 	))
 
 	return (
-		<Card style={{marginBottom: 10}} withBorder radius='md' p='md'>
 			<Container>
 				<Group position='apart'>
 					<Group position='left' spacing='xs'>
@@ -40,7 +38,6 @@ export default function TransactionCard({transactions}: {transactions: Transacti
 					<tbody>{rows}</tbody>
 				</Table>
 				<Divider variant='dotted' size='md' my='sm' />
-				<Title order={5} style={{marginLeft: 5, marginTop: 10}}>Total £{transactionsTotalAmount}</Title>
 			</Container>
 		</Card>
 	)
