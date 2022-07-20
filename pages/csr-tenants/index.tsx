@@ -31,7 +31,7 @@ export default function TenantsPage() {
 	return (
 
 		<div className='container m-10 p-5'>
-			<Button color='green' variant='light' radius='md' size='md' onClick={openContentModal}>New Tenant</Button>
+			<Button variant='light' radius='md' size='md' onClick={openContentModal}>New Tenant</Button>
 
 			{currentTenants?.length && currentTenants.map((tenant) => (
 				<TenantDetailsCard tenant={tenant} />
