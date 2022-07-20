@@ -23,7 +23,7 @@ function MyApp({Component, pageProps}: AppProps) {
 				theme={theme}
 			>
 				<ModalsProvider>
-					<NotificationsProvider>
+					<NotificationsProvider autoClose={5000}>
 
 						<Component {...pageProps} />
 					</NotificationsProvider>
