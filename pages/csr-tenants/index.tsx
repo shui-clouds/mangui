@@ -10,7 +10,6 @@ export default function TenantsPage() {
 
 	const {
 		data: currentTenants,
-		refetch,
 		isLoading,
 	} = trpc.useQuery(['get-tenants'], {
 		refetchInterval: false,
@@ -22,10 +21,7 @@ export default function TenantsPage() {
 		const id = modals.openModal({
 			title: 'New Tenant',
 			children: <TenantForm
-				onSuccessHandler={() => {
-					refetch()
-					modals.closeModal(id)
-				}}
+				close={() => { modals.closeModal(id) }}
 			/>,
 		})
 	}
@@ -38,7 +34,7 @@ export default function TenantsPage() {
 			<Button color='green' variant='light' radius='md' size='md' onClick={openContentModal}>New Tenant</Button>
 
 			{currentTenants?.length && currentTenants.map((tenant) => (
-				<TenantDetailsCard tenant={tenant} handler={openContentModal} />
+				<TenantDetailsCard tenant={tenant} />
 
 			))}
 

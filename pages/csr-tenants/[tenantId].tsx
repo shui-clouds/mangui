@@ -30,8 +30,8 @@ export default function TenantPage() {
 	return (
 		<Container style={{marginBottom: 25}} size='md'>
 			<Title style={{marginBottom: 15, marginTop: 25}} order={2}>Overview</Title>
-			<TenantDetailsCard tenant={tenant} handler={openTenantEditModal} />
-			{tenant.transactions && (<TransactionCard transactions={tenant.transactions} />)}
+			<TenantDetailsCard tenant={tenant} />
+			{tenant.transactions && (<TransactionListCard transactions={tenant.transactions} />)}
 		</Container>
 	)
 }
