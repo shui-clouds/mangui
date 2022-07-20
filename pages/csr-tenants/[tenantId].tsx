@@ -1,24 +1,23 @@
 import type React from 'react'
 import {useRouter} from 'next/router'
 import {Container, Title} from '@mantine/core'
-import {useModals} from '@mantine/modals'
 import {trpc} from '@/utils/trpc'
 import TenantDetailsCard from '@/components/tenants/DetailsCard'
-import TransactionCard from '@/components/transactions/TransactionCard'
-import TenantForm from '@/components/tenants/TenantForm'
+import TransactionListCard from '@/components/transactions/ListCard'
 
 export default function TenantPage() {
-	const modals = useModals()
-
 	const router = useRouter()
 
 	const {tenantId} = router.query
 
+	if (tenantId === undefined || Array.isArray(tenantId)) {
+		return 'Something went wrong!'
+	}
+
 	const {
 		data: tenant,
-		refetch,
 		isLoading,
-	} = trpc.useQuery(['get-tenant', tenantId?.toString() ?? ''], {
+	} = trpc.useQuery(['get-tenant', tenantId], {
 		refetchInterval: false,
 		refetchOnReconnect: false,
 		refetchOnWindowFocus: false,
@@ -27,19 +26,6 @@ export default function TenantPage() {
 	if (isLoading || !tenant) return 'LODING WAAAA'
 
 	console.dir(tenant)
-
-	const openTenantEditModal = () => {
-		const id = modals.openModal({
-			title: tenant.name,
-			children: <TenantForm
-				tenant={tenant}
-				onSuccessHandler={() => {
-					refetch()
-					modals.closeModal(id)
-				}}
-			/>,
-		})
-	}
 
 	return (
 		<Container style={{marginBottom: 25}} size='md'>

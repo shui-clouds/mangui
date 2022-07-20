@@ -1,9 +1,21 @@
 import {Group, Button, Badge, Card, Text, Title, Divider, Stack, ActionIcon, Container} from '@mantine/core'
+import {useModals} from '@mantine/modals'
 import React from 'react'
 import {Edit, BuildingBank, DoorExit, User, DoorEnter, Home, Plus, Pencil} from 'tabler-icons-react'
-import {InferQueryResponse} from '../../pages/api/trpc/[trpc]'
+import TenantForm from './TenantForm'
 
-type Tenant = InferQueryResponse<'get-tenants'>[number]
+export default function TenantDetailsCard({tenant}: {tenant: Exclude<Parameters<typeof TenantForm>[0]['tenant'], undefined>}) {
+	const modals = useModals()
+
+	const openTenantEditModal = () => {
+		const id = modals.openModal({
+			title: tenant.name,
+			children: <TenantForm
+				tenant={tenant}
+				close={() => modals.closeModal(id)}
+			/>,
+		})
+	}
 
 export default function TenantDetailsCard({tenant, handler}: {tenant: Tenant, handler: () => void}) {
 	return (

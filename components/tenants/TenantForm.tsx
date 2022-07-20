@@ -3,13 +3,16 @@ import React from 'react'
 import {Button, TextInput, Group} from '@mantine/core'
 
 import {useForm} from '@mantine/form'
+import {showNotification} from '@mantine/notifications'
 import {trpc} from '@/utils/trpc'
 import {InferQueryResponse} from '@/pages/api/trpc/[trpc]'
-import {sendNotification} from '@/lib/notifications'
+import {showErrorNotification, showSuccessNotification} from '@/lib/notifications'
 
-type Tenant = InferQueryResponse<'get-tenant'>
+type Tenant = InferQueryResponse<'get-tenants'>[number]
 
-export default function TenantForm({tenant, onSuccessHandler}: {tenant?: Tenant, onSuccessHandler: () => void}) {
+export default function TenantForm({close, tenant}: {close: () => void, tenant?: Tenant}) {
+	const {invalidateQueries} = trpc.useContext()
+
 	const tenantForm = useForm({
 		initialValues: {
 			name: tenant ? tenant.name : '',
@@ -21,27 +24,29 @@ export default function TenantForm({tenant, onSuccessHandler}: {tenant?: Tenant,
 
 	const updateTenantMutation = trpc.useMutation('update-tenant', {
 		onSuccess() {
-			onSuccessHandler()
-			sendNotification({success: true})
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			invalidateQueries(['get-tenant', tenant!.id])
+			showSuccessNotification()
+			close()
 		},
 		onError() {
-			sendNotification({success: false})
+			showErrorNotification()
 		},
 	})
 
 	const createTenantMutation = trpc.useMutation('create-tenant', {
 		onSuccess(input) {
-			onSuccessHandler()
-			sendNotification({message: `${input.tenant.name} has been added.`, success: true})
+			invalidateQueries(['get-tenants'])
+			showNotification({color: 'success', message: `${input.tenant.name} has been added.`})
+			close()
 		},
 		onError(input) {
-			sendNotification({message: `${input.message}`, success: false})
+			showNotification({color: 'error', message: `${input.message}`})
 		},
 	})
 
 	return (
 		<form
-			style={{marginBottom: 10}}
 			onSubmit={tenantForm.onSubmit((values) => {
 				if (tenant) {
 					updateTenantMutation.mutate({
