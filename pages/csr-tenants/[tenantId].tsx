@@ -28,8 +28,8 @@ export default function TenantPage() {
 	console.dir(tenant)
 
 	return (
-		<Container sx={{marginBottom: 25}} size='md'>
-			<Title sx={{marginBottom: 15, marginTop: 25}} order={2}>Overview</Title>
+		<Container size='md'>
+			<Title className='my-5 text-2xl'>Overview</Title>
 			<TenantDetailsCard tenant={tenant} />
 			{tenant.transactions && (<TransactionListCard transactions={tenant.transactions} />)}
 		</Container>
