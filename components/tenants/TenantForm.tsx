@@ -63,8 +63,8 @@ export default function TenantForm({close, tenant}: {close: () => void, tenant?:
 				}
 			})}
 		>
-			<TextInput required style={{marginBottom: 10}} label='Full Name' placeholder='Appears on contract' {...tenantForm.getInputProps('name')} />
-			<TextInput style={{marginBottom: 10}} label='Email' placeholder='Optional' {...tenantForm.getInputProps('email')} />
+			<TextInput required sx={{marginBottom: 10}} label='Full Name' placeholder='Appears on contract' {...tenantForm.getInputProps('name')} />
+			<TextInput sx={{marginBottom: 10}} label='Email' placeholder='Optional' {...tenantForm.getInputProps('email')} />
 			<Group position='right' mt='md'>
 				<Button variant='light' disabled={updateTenantMutation.isLoading || createTenantMutation.isLoading} type='submit'>{tenant ? 'Save' : 'Register'}</Button>
 			</Group>

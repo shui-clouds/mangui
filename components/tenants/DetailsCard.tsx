@@ -17,24 +17,23 @@ export default function TenantDetailsCard({tenant}: {tenant: Exclude<Parameters<
 		})
 	}
 
-export default function TenantDetailsCard({tenant, handler}: {tenant: Tenant, handler: () => void}) {
 	return (
-		<Card style={{marginBottom: 10}} withBorder radius='md' p='md'>
+		<Card sx={{marginBottom: 10}} withBorder radius='md' p='md'>
 			<Container>
-				<Group position='apart' style={{marginTop: 5}}>
+				<Group position='apart' sx={{marginTop: 5}}>
 					<Group position='left' spacing='xs'>
 						<Title order={4}>{tenant.name}</Title>
 						<User size={20} />
 					</Group>
 
 					<Group position='right'>
-						<ActionIcon color='orange' variant='transparent' onClick={handler}>
+						<ActionIcon color='orange' variant='transparent' onClick={openTenantEditModal}>
 							<Edit color='orange' size={30} />
 						</ActionIcon>
 					</Group>
 				</Group>
 
-				<Text style={{marginBottom: 10}} color='dimmed'>{tenant.email}</Text>
+				<Text sx={{marginBottom: 10}} color='dimmed'>{tenant.email}</Text>
 				<Divider variant='dashed' size='sm' my='sm' />
 
 				<Stack my='sm' align='flex-start' justify='space-around'>
@@ -61,7 +60,7 @@ export default function TenantDetailsCard({tenant, handler}: {tenant: Tenant, ha
 					</Group>
 				</Stack>
 
-				<Group style={{marginTop: 20}} position='left' spacing='sm'>
+				<Group sx={{marginTop: 20}} position='left' spacing='sm'>
 					<Button size='sm' radius='md' variant='light' color='orange' leftIcon={<Pencil size={20} />}>
 						Update Tenancy
 					</Button>

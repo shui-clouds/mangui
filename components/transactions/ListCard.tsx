@@ -18,6 +18,7 @@ export default function TransactionListCard({transactions}: {transactions: Trans
 	))
 
 	return (
+		<Card sx={{marginBottom: 10}} withBorder radius='md' p='md'>
 			<Container>
 				<Group position='apart'>
 					<Group position='left' spacing='xs'>
@@ -38,6 +39,7 @@ export default function TransactionListCard({transactions}: {transactions: Trans
 					<tbody>{rows}</tbody>
 				</Table>
 				<Divider variant='dotted' size='md' my='sm' />
+				<Title order={5} sx={{marginLeft: 5, marginTop: 10}}>Total £{transactionsTotalAmount}</Title>
 			</Container>
 		</Card>
 	)
