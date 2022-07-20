@@ -1,7 +1,7 @@
-import {Group, Button, Badge, Card, Text, Title, Divider, Stack, ActionIcon, Container} from '@mantine/core'
+import {Group, Button, Badge, Card, Text, Title, Divider, ActionIcon, Container} from '@mantine/core'
 import {useModals} from '@mantine/modals'
 import React from 'react'
-import {Edit, BuildingBank, DoorExit, User, DoorEnter, Home, Plus, Pencil} from 'tabler-icons-react'
+import {Edit, BuildingBank, DoorExit, DoorEnter, Home, Plus, Pencil} from 'tabler-icons-react'
 import TenantForm from './TenantForm'
 
 export default function TenantDetailsCard({tenant}: {tenant: Exclude<Parameters<typeof TenantForm>[0]['tenant'], undefined>}) {
