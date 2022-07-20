@@ -6,6 +6,7 @@ import {MantineProvider} from '@mantine/core'
 import {ModalsProvider} from '@mantine/modals'
 import {NotificationsProvider} from '@mantine/notifications'
 import type {AppRouter} from '@/backend/router'
+import {theme} from '@/lib/mantineTheme'
 
 function MyApp({Component, pageProps}: AppProps) {
 	return (
@@ -19,6 +20,7 @@ function MyApp({Component, pageProps}: AppProps) {
 				withGlobalStyles
 				withNormalizeCSS
 				emotionOptions={{key: 'mantine', prepend: false}}
+				theme={theme}
 			>
 				<ModalsProvider>
 					<NotificationsProvider>
