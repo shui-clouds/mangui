@@ -25,7 +25,6 @@ export default function TenantDetailsCard({tenant}: {tenant: Exclude<Parameters<
 					<Edit color='orange' />
 				</ActionIcon>
 			</Group>
-
 			<Container className='space-y-3'>
 				<Text color='dimmed'>{tenant.email}</Text>
 				<Divider className='my-3' variant='dashed' size='sm' />
