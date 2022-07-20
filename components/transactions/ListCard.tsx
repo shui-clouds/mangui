@@ -18,29 +18,25 @@ export default function TransactionListCard({transactions}: {transactions: Trans
 	))
 
 	return (
-		<Card sx={{marginBottom: 10}} withBorder radius='md' p='md'>
-			<Container>
-				<Group position='apart'>
-					<Group position='left' spacing='xs'>
-						<Cash color='teal' />
-						<Title order={4}>Transactions</Title>
-					</Group>
-				</Group>
-				<Divider variant='dashed' size='sm' my='sm' />
-				<Table verticalSpacing='sm' horizontalSpacing='sm' fontSize='md'>
-					<thead>
-						<tr>
-							<th>Amount</th>
-							<th>Category</th>
-							<th>Reference</th>
-							<th>Date</th>
-						</tr>
-					</thead>
-					<tbody>{rows}</tbody>
-				</Table>
-				<Divider variant='dotted' size='md' my='sm' />
-				<Title order={5} sx={{marginLeft: 5, marginTop: 10}}>Total £{transactionsTotalAmount}</Title>
-			</Container>
+		<Card className='p-5' withBorder>
+			<div className='flex justify-start space-x-2'>
+				<Cash color='teal' />
+				<Title className='text-lg'>Transactions</Title>
+			</div>
+			<Divider className='my-3' variant='dashed' size='sm' />
+			<Table verticalSpacing='sm' horizontalSpacing='sm' fontSize='md'>
+				<thead>
+					<tr>
+						<th>Amount</th>
+						<th>Category</th>
+						<th>Reference</th>
+						<th>Date</th>
+					</tr>
+				</thead>
+				<tbody>{rows}</tbody>
+			</Table>
+			<Divider className='my-3' variant='dotted' size='md' />
+			<Title className='mt-5 text-lg'>Total £{transactionsTotalAmount}</Title>
 		</Card>
 	)
 }
