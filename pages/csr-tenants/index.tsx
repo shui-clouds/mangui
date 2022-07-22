@@ -8,14 +8,14 @@ import TenantForm from '@/components/tenants/TenantForm'
 export default function TenantsPage() {
 	const modals = useModals()
 
-	const {
-		data: currentTenants,
-		isLoading,
-	} = trpc.useQuery(['get-tenants'], {
-		refetchInterval: false,
-		refetchOnReconnect: false,
-		refetchOnWindowFocus: false,
-	})
+	const {data: currentTenants, isLoading} = trpc.useQuery(
+		['get-tenants'],
+		{
+			refetchInterval: false,
+			refetchOnReconnect: false,
+			refetchOnWindowFocus: false,
+		},
+	)
 
 	const openContentModal = () => {
 		const id = modals.openModal({
@@ -26,18 +26,14 @@ export default function TenantsPage() {
 		})
 	}
 	if (isLoading) return 'LODING WAAAA'
-	console.dir(currentTenants)
 
 	return (
-
 		<div className='container m-10 p-5'>
 			<Button variant='light' radius='md' size='md' onClick={openContentModal}>New Tenant</Button>
-
 			{currentTenants?.length && currentTenants.map((tenant) => (
 				<TenantDetailsCard tenant={tenant} />
 
 			))}
-
 		</div>
 	)
 }
