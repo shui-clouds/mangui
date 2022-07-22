@@ -1,5 +1,6 @@
 import type React from 'react'
 import {useRouter} from 'next/router'
+import Error from 'next/error'
 import {Container, Title} from '@mantine/core'
 import {trpc} from '@/utils/trpc'
 import TenantDetailsCard from '@/components/tenants/DetailsCard'
@@ -18,7 +19,8 @@ export default function TenantPage() {
 		},
 	)
 
-	if (isLoading || !tenant) return 'LODING WAAAA'
+	if (isLoading) { return 'LOADING WAAAAAAA' }
+	if (!tenant) { return <Error statusCode={404} /> }
 
 	console.dir(tenant)
 
