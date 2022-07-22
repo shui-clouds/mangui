@@ -9,7 +9,7 @@ export const appRouter = trpc
 		resolve: db.getTenants,
 	})
 	.query('get-tenant', {
-		input: z.string(),
+		input: z.string().min(1),
 		resolve: (req) => db.getTenant(req.input),
 	})
 	.query('get-transactions', {
