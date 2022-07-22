@@ -7,21 +7,16 @@ import TransactionListCard from '@/components/transactions/ListCard'
 
 export default function TenantPage() {
 	const router = useRouter()
-
 	const {tenantId} = router.query
 
-	if (tenantId === undefined || Array.isArray(tenantId)) {
-		return 'Something went wrong!'
-	}
-
-	const {
-		data: tenant,
-		isLoading,
-	} = trpc.useQuery(['get-tenant', tenantId], {
-		refetchInterval: false,
-		refetchOnReconnect: false,
-		refetchOnWindowFocus: false,
-	})
+	const {data: tenant, isLoading} = trpc.useQuery(
+		['get-tenant', tenantId as string],
+		{
+			refetchInterval: false,
+			refetchOnReconnect: false,
+			refetchOnWindowFocus: false,
+		},
+	)
 
 	if (isLoading || !tenant) return 'LODING WAAAA'
 
