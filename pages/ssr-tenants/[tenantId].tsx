@@ -1,6 +1,7 @@
 import type React from 'react'
 import {Container, Title} from '@mantine/core'
 import {GetServerSidePropsContext, InferGetServerSidePropsType} from 'next'
+import Link from 'next/link'
 import TenantDetailsCard from '@/components/tenants/DetailsCard'
 import TransactionListCard from '@/components/transactions/ListCard'
 import {getTenant} from '@/lib/db'
@@ -11,6 +12,7 @@ export default function TenantPage({tenant}: InferGetServerSidePropsType<typeof 
 			<Title className='my-5 text-2xl'>Overview</Title>
 			<TenantDetailsCard tenant={tenant} />
 			{tenant.transactions && (<TransactionListCard transactions={tenant.transactions} />)}
+			<Link href='/ssr-tenants'>Back</Link>
 		</Container>
 	)
 }
