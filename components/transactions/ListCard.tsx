@@ -6,7 +6,7 @@ import {InferQueryResponse} from '../../pages/api/trpc/[trpc]'
 type Transactions = InferQueryResponse<'get-transactions'>
 
 export default function TransactionListCard({transactions}: {transactions: Transactions}) {
-	const transactionsTotalAmount: number = transactions.map((t) => t.amount).reduce((prev, next) => prev + next)
+	// const transactionsTotalAmount: number = transactions.map((t) => t.amount).reduce((prev, next) => prev + next)
 
 	const rows = transactions.map((t) => (
 		<tr key={t.id}>
@@ -36,7 +36,7 @@ export default function TransactionListCard({transactions}: {transactions: Trans
 				<tbody>{rows}</tbody>
 			</Table>
 			<Divider className='my-3' variant='dotted' size='md' />
-			<Title className='mt-5 text-lg'>Total £{transactionsTotalAmount}</Title>
+			{/* <Title className='mt-5 text-lg'>Total £{transactionsTotalAmount}</Title> */}
 		</Card>
 	)
 }
