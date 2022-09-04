@@ -1,6 +1,6 @@
 import type React from 'react'
 import {useModals} from '@mantine/modals'
-import {Button} from '@mantine/core'
+import {Button, Card, Title} from '@mantine/core'
 import {InferGetServerSidePropsType} from 'next'
 import Link from 'next/link'
 import TenantDetailsCard from '@/components/tenants/DetailsCard'
@@ -20,15 +20,18 @@ export default function TenantsPage({tenants}: InferGetServerSidePropsType<typeo
 	}
 
 	return (
-		<div className='container m-10 p-5'>
-			<Button variant='light' radius='md' size='md' onClick={openContentModal}>New Tenant</Button>
+		<>
+			<Title className='my-4 font-medium text-2xl'>Tenants</Title>
+			<Button variant='light' radius='md' size='sm' onClick={openContentModal}>New Tenant</Button>
 			{tenants?.length && tenants.map((tenant) => (
-				<>
+				<Card key={tenant.id} withBorder className='my-4'>
+					<h1 className='ml-4 font-medium text-xl'>
+						<Link href={`/ssr-tenants/${tenant.id}`}>{tenant.name}</Link>
+					</h1>
 					<TenantDetailsCard key={tenant.id} tenant={tenant} />
-					<Link href={`ssr-tenants/${tenant.id}`}>View</Link>
-				</>
+				</Card>
 			))}
-		</div>
+		</>
 	)
 }
 
