@@ -2,7 +2,7 @@ import '../styles/global.css'
 import {withTRPC} from '@trpc/next'
 import type {AppProps} from 'next/app'
 import Head from 'next/head'
-import {MantineProvider} from '@mantine/core'
+import {Container, MantineProvider} from '@mantine/core'
 import {ModalsProvider} from '@mantine/modals'
 import {NotificationsProvider} from '@mantine/notifications'
 import type {AppRouter} from '@/backend/router'
@@ -23,9 +23,10 @@ function MyApp({Component, pageProps}: AppProps) {
 				theme={theme}
 			>
 				<ModalsProvider>
-					<NotificationsProvider autoClose={5000}>
-
-						<Component {...pageProps} />
+					<NotificationsProvider autoClose={5000} position='top-right'>
+						<Container>
+							<Component {...pageProps} />
+						</Container>
 					</NotificationsProvider>
 				</ModalsProvider>
 			</MantineProvider>
