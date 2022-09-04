@@ -4,6 +4,7 @@ import {Button, TextInput, Group} from '@mantine/core'
 
 import {useForm} from '@mantine/form'
 import {showNotification} from '@mantine/notifications'
+import {useRouter} from 'next/router'
 import {trpc} from '@/utils/trpc'
 import {InferQueryResponse} from '@/pages/api/trpc/[trpc]'
 import {showErrorNotification, showSuccessNotification} from '@/lib/notifications'
@@ -12,6 +13,10 @@ type Tenant = InferQueryResponse<'get-tenants'>[number]
 
 export default function TenantForm({close, tenant}: {close: () => void, tenant?: Tenant}) {
 	const {invalidateQueries} = trpc.useContext()
+	const router = useRouter()
+	const reloadPage = () => {
+		router.replace(router.asPath)
+	}
 
 	const tenantForm = useForm({
 		initialValues: {
@@ -26,6 +31,7 @@ export default function TenantForm({close, tenant}: {close: () => void, tenant?:
 		onSuccess() {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			invalidateQueries(['get-tenant', tenant!.id])
+			reloadPage()
 			showSuccessNotification()
 			close()
 		},
@@ -34,9 +40,11 @@ export default function TenantForm({close, tenant}: {close: () => void, tenant?:
 		},
 	})
 
+	// TODO: fix empty email field failing unique field validation
 	const createTenantMutation = trpc.useMutation('create-tenant', {
 		onSuccess(input) {
 			invalidateQueries(['get-tenants'])
+			reloadPage()
 			showNotification({color: 'success', message: `${input.tenant.name} has been added.`})
 			close()
 		},
@@ -63,8 +71,8 @@ export default function TenantForm({close, tenant}: {close: () => void, tenant?:
 				}
 			})}
 		>
-			<TextInput required className='mb-10' label='Full Name' placeholder='Appears on contract' {...tenantForm.getInputProps('name')} />
-			<TextInput className='mb-10' label='Email' placeholder='Optional' {...tenantForm.getInputProps('email')} />
+			<TextInput required label='Full Name' placeholder='Appears on contract' {...tenantForm.getInputProps('name')} />
+			<TextInput label='Email' placeholder='Optional' {...tenantForm.getInputProps('email')} />
 			<Group position='right' mt='md'>
 				<Button variant='light' disabled={updateTenantMutation.isLoading || createTenantMutation.isLoading} type='submit'>{tenant ? 'Save' : 'Register'}</Button>
 			</Group>
