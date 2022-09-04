@@ -63,7 +63,7 @@ export const appRouter = trpc
 	.mutation('create-transaction', {
 		input: z.object({
 			reference: z.string(),
-			amount: z.number().min(1),
+			amount: z.number(),
 			date: z.string(),
 			tenantId: z.string(),
 		}),
@@ -77,29 +77,6 @@ export const appRouter = trpc
 				},
 			})
 			return {success: true, transaction}
-		},
-	})
-	.mutation('update-transaction', {
-		input: z.object({
-			id: z.string(),
-			reference: z.string(),
-			amount: z.number().min(1),
-			date: z.string(),
-			tenantId: z.string(),
-		}),
-		async resolve(req) {
-			const updatedTransaction = await prisma.transaction.update({
-				where: {
-					id: req.input.id,
-				},
-				data: {
-					reference: req.input.reference,
-					amount: req.input.amount,
-					date: req.input.date,
-					tenantId: req.input.tenantId,
-				},
-			})
-			return {success: true, updatedTransaction}
 		},
 	})
 
