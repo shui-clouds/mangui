@@ -11,7 +11,8 @@ export async function getTransactions(tenantId: string) {
 	const rawTransactions = await prisma.transaction.findMany({
 		where: {tenantId},
 	})
-	const transactions = rawTransactions.map((t) => ({...t, date: ''}))
+	// Date displayed one hour behind
+	const transactions = rawTransactions.map((t) => ({...t, date: t.date.toISOString()}))
 	return transactions
 }
 
@@ -30,7 +31,7 @@ export async function getTenant(tenantId: string) {
 	})
 	if (!rawTenant) throw Error(`No tenant found with id ${tenantId}`)
 
-	const transactions = rawTenant.transactions.map((t) => ({...t, date: ''}))
+	const transactions = rawTenant.transactions.map((t) => ({...t, date: t.date.toISOString()}))
 	const tenant = {...rawTenant, createdAt: '', transactions}
 
 	return tenant
