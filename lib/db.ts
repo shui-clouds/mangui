@@ -24,6 +24,21 @@ export async function getTransaction(transactionId: string) {
 	return transaction
 }
 
+export async function getProperty(propertyId: string) {
+	const property = await prisma.property.findUnique({
+		where: {id: propertyId},
+	})
+	if (!property) throw Error(`No property found with id ${propertyId}`)
+	return property
+}
+
+export async function getProperties() {
+	const rawProperties = await prisma.property.findMany()
+	const properties = rawProperties.map((t) => ({...t, createdAt: ''}))
+
+	return properties
+}
+
 export async function getTenant(tenantId: string) {
 	const rawTenant = await prisma.tenant.findUnique({
 		where: {id: tenantId},
