@@ -20,6 +20,13 @@ export const appRouter = trpc
 		input: z.string(),
 		resolve: (req) => db.getTransaction(req.input),
 	})
+	.query('get-property', {
+		input: z.string(),
+		resolve: (req) => db.getProperty(req.input),
+	})
+	.query('get-properties', {
+		resolve: db.getProperties,
+	})
 	.mutation('create-tenant', {
 		input: z.object({
 			name: z.string().min(2),
@@ -77,6 +84,40 @@ export const appRouter = trpc
 				},
 			})
 			return {success: true, transaction}
+		},
+	})
+	.mutation('create-property', {
+		input: z.object({
+			name: z.string().min(1),
+			address: z.string().min(1),
+		}),
+		async resolve({input}) {
+			const property = await prisma.property.create({
+				data: {
+					name: input.name,
+					address: input.address,
+				},
+			})
+			return {success: true, property}
+		},
+	})
+	.mutation('update-property', {
+		input: z.object({
+			id: z.string().min(1),
+			name: z.string().min(1),
+			address: z.string().min(1),
+		}),
+		async resolve(req) {
+			const updateProperty = await prisma.property.update({
+				where: {
+					id: req.input.id,
+				},
+				data: {
+					name: req.input.name,
+					address: req.input.address,
+				},
+			})
+			return {success: true, updateProperty}
 		},
 	})
 
