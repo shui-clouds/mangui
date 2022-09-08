@@ -32,7 +32,7 @@ export default function TenantsPage() {
 		<>
 			<Title className='my-4 font-medium text-2xl'>Tenants</Title>
 			<Button variant='light' radius='md' size='sm' onClick={openContentModal}>New Tenant</Button>
-			{currentTenants?.length && currentTenants.map((tenant) => (
+			{currentTenants?.map((tenant) => (
 				<Card withBorder className='my-4'>
 					<h1 className='ml-4 font-medium text-xl'>
 						<Link href={`csr-tenants/${tenant.id}`}>{tenant.name}</Link>
