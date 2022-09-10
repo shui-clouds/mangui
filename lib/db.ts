@@ -51,3 +51,19 @@ export async function getTenant(tenantId: string) {
 
 	return tenant
 }
+
+export async function getRooms(propertyId: string) {
+	const rooms = await prisma.property.findUnique({
+		where: {id: propertyId},
+		include: {rooms: true},
+	})
+	return rooms
+}
+
+export async function getRoom(roomId: string) {
+	const room = await prisma.room.findUnique({
+		where: {id: roomId},
+	})
+	if (!room) throw Error(`No room found with id ${roomId}`)
+	return room
+}
