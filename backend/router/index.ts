@@ -27,6 +27,14 @@ export const appRouter = trpc
 	.query('get-properties', {
 		resolve: db.getProperties,
 	})
+	.query('get-room', {
+		input: z.string().min(1),
+		resolve: (req) => db.getRoom(req.input),
+	})
+	.query('get-rooms', {
+		input: z.string(),
+		resolve: (req) => db.getRooms(req.input),
+	})
 	.mutation('create-tenant', {
 		input: z.object({
 			name: z.string().min(2),
@@ -118,6 +126,50 @@ export const appRouter = trpc
 				},
 			})
 			return {success: true, updateProperty}
+		},
+	})
+	.mutation('create-room', {
+		input: z.object({
+			number: z.number(),
+			rent: z.number().min(1),
+			description: z.string().optional(),
+			propertyId: z.string(),
+			tenantId: z.string().optional(),
+		}),
+		async resolve(req) {
+			const transaction = await prisma.room.create({
+				data: {
+					number: req.input.number,
+					rent: req.input.rent,
+					description: req.input.description,
+					propertyId: req.input.propertyId,
+					tenantId: req.input.tenantId,
+				},
+			})
+			return {success: true, transaction}
+		},
+	})
+	.mutation('update-room', {
+		input: z.object({
+			id: z.string().min(1),
+			number: z.number(),
+			rent: z.number().min(1),
+			description: z.string().optional(),
+			tenantId: z.string().optional(),
+		}),
+		async resolve(req) {
+			const updateRoom = await prisma.room.update({
+				where: {
+					id: req.input.id,
+				},
+				data: {
+					number: req.input.number,
+					rent: req.input.rent,
+					description: req.input.description,
+					tenantId: req.input.tenantId,
+				},
+			})
+			return {success: true, updateRoom}
 		},
 	})
 
