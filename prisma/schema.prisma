@@ -56,13 +56,13 @@ model Room {
   id            String   @id @default(cuid())
   number        Int
   description   String?
-  property      Property @relation(fields: [property_name], references: [name])
-  property_name String
+  rent          Int      @default(0)
+  property      Property @relation(fields: [propertyId], references: [id])
+  propertyId    String
   tenant        Tenant?  @relation(fields: [tenantId], references: [id])
   tenantId      String?  @unique
 
-  @@unique([property_name, number])
-  @@index([property_name, number])
+  @@unique([number, propertyId])
 }
 
 model Tenant {
