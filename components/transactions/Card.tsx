@@ -13,7 +13,6 @@ export default function TransactionCard({transaction}: {transaction: Transaction
 					{transaction.id}
 				</Badge>
 			</Group>
-
 			<Text size='md' color='black'>
 				Amount
 			</Text>
