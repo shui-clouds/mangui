@@ -24,12 +24,7 @@ export default function PropertiesPage({properties}: InferGetServerSidePropsType
 			<Title className='my-4 font-medium text-2xl'>Properties</Title>
 			<Button variant='light' radius='md' size='sm' onClick={openContentModal}>New Property</Button>
 			{properties.map((property) => (
-				<Card key={property.id} withBorder className='my-4'>
-					<h1 className='font-medium text-xl'>
-						<Link href={`/properties/${property.id}`}>{property.name}</Link>
-					</h1>
-					<PropertyCard key={property.id} property={property} />
-				</Card>
+				<PropertyCard key={property.id} property={property} />
 			))}
 		</Container>
 	)
