@@ -1,0 +1,91 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+enum Status {
+  UNREGISTERED // Has not yet signed the contract or paid deposit
+  CURRENT
+  FUTURE // Deposit paid but moving in at a future time
+  VACATED
+}
+
+enum Expense {
+  WATER
+  GAS_ELECTRICITY
+  INTERNET
+  HEATING
+  COUNCIL_TAX
+  BUSINESS_BANK_CHARGE
+  ADVERTISEMENT
+  MORTGAGE_REPAYMENT
+  PROPERTY_INSURANCE
+}
+
+model PropertyExpense {
+  id           String   @id @default(cuid())
+  type         Expense
+  amount       Int      @default(0)
+  date         DateTime
+  reference    String?
+  property     Property @relation(fields: [propertyName], references: [name])
+  propertyName String
+
+  // Quickly find payment reference
+  @@index([date, amount])
+  @@index([propertyName, type])
+}
+
+model Property {
+  id       String            @id @default(cuid())
+  name     String            @unique
+  address  String            @unique
+  rooms    Room[]
+  expenses PropertyExpense[]
+
+  @@index([name])
+}
+
+model Room {
+  id            String   @id @default(cuid())
+  number        Int
+  description   String?
+  rent          Int      @default(0)
+  property      Property @relation(fields: [propertyId], references: [id])
+  propertyId    String
+  tenant        Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId      String?  @unique
+
+  @@unique([number, propertyId])
+}
+
+model Tenant {
+  id          String        @id @default(cuid())
+  balance     Int           @default(0)
+  name        String
+  email       String?       @unique
+  createdAt   DateTime      @default(now())
+  transactions Transaction[]
+  room        Room?
+
+  @@index([name])
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  reference String
+  amount    Int
+  date      DateTime @default(now())
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId  String
+
+
+  // Quickly find payment reference
+  @@index([amount])
+}
