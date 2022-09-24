@@ -73,6 +73,6 @@ export async function createTenant(data) {
 	const tenant = await prisma.tenant.create({
 		data
 	})
-	return [tenant]
+	return tenant
 }
 
