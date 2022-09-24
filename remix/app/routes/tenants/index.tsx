@@ -12,13 +12,14 @@ export default function Tenants() {
         Tenants
       </h1>
       {tenants.map((tenant) => (
-        
+        <div>
           <Link
             to={`/tenants/${tenant.id}`}
             className="text-xl text-blue-600 underline"
           >
           {tenant.name}
           </Link>
+        </div>
       ))}
       
     </main>

@@ -31,8 +31,7 @@ export default function NewTenant() {
       <p>
         <button type='submit'>Create</button>
       </p>
-    </Form><p>
-        {JSON.stringify(actionData)}
-      </p></>
+    </Form>
+    </>
   )
 }
