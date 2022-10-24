@@ -1,13 +1,13 @@
-import {Group, Text, Divider, Container} from '@mantine/core'
+import { Group, Text, Divider, Container, Title, Card } from '@mantine/core'
 import React from 'react'
-import {DoorExit, DoorEnter, Home} from 'tabler-icons-react'
+import { DoorExit, DoorEnter, Home } from 'tabler-icons-react'
 import TenantForm from './TenantForm'
 
-export default function TenantDetailsCard({tenant}: {tenant: Exclude<Parameters<typeof TenantForm>[0]['tenant'], undefined>}) {
+export default function TenantDetailsCard({ tenant }: { tenant: Exclude<Parameters<typeof TenantForm>[0]['tenant'], undefined> }) {
 	return (
-		<Container>
-			<Text className='my-2' color='dimmed'>{tenant.email}</Text>
-			<Divider className='mb-3 mt-2' variant='dashed' size='sm' />
+		<>
+			<Title className='my-2 font-medium text-xl'>{tenant.name}</Title>
+			<Text className='mb-2' color='dimmed'>{tenant.email}</Text>
 			<Text>Student, University of Brighton</Text>
 			<Group className='my-3' spacing='xs'>
 				<Home color='purple' />
@@ -21,6 +21,6 @@ export default function TenantDetailsCard({tenant}: {tenant: Exclude<Parameters<
 				<DoorExit color='orange' />
 				<Text className='font-medium' color='gray'>12th November 2022</Text>
 			</Group>
-		</Container>
+		</>
 	)
 }

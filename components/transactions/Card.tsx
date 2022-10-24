@@ -6,7 +6,7 @@ type Transactions = InferQueryResponse<'get-transactions'>
 
 export default function TransactionCard({transaction}: {transaction: Transactions[number]}) {
 	return (
-		<Card className='my-2' p='lg' radius='md' withBorder>
+		<Card className='my-2' p='lg' radius='sm' withBorder>
 			<Group position='apart' mt='xs' mb='xs'>
 				<Text weight={500}>{transaction.date}</Text>
 				<Badge color='gray' variant='light'>
