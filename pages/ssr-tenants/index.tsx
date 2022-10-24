@@ -25,10 +25,10 @@ export default function TenantsPage({tenants}: InferGetServerSidePropsType<typeo
 			<Button variant='light' radius='md' size='sm' onClick={openContentModal}>New Tenant</Button>
 			{tenants.map((tenant) => (
 				<Card key={tenant.id} withBorder className='my-4'>
-					<h1 className='ml-4 font-medium text-xl'>
-						<Link href={`/ssr-tenants/${tenant.id}`}>{tenant.name}</Link>
-					</h1>
 					<TenantDetailsCard key={tenant.id} tenant={tenant} />
+					<h1 className='font-medium text-lg'>
+						<Link href={`/ssr-tenants/${tenant.id}`}>View</Link>
+					</h1>
 				</Card>
 			))}
 		</Container>
