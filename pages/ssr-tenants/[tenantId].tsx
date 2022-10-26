@@ -46,7 +46,7 @@ export default function TenantPage({ tenant }: InferGetServerSidePropsType<typeo
 				</Button>
 			</Group>
 			<TenantDetailsCard key={tenant.id} tenant={tenant} />
-			<Divider className='mt-8 mb-4' />
+			<Divider className='mt-8 mb-4' variant='dashed' />
 			<Group position='apart' spacing='sm'>
 				<Text className='my-4 text-xl font-medium'>Account Balance: £{balance}</Text>
 				<Button className='rounded-md' size='sm' variant='light' onClick={openTransactionCreateModal}>

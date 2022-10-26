@@ -6,7 +6,7 @@ import {useModals} from '@mantine/modals'
 import PropertyCard from '@/components/properties/Card'
 import {getProperty} from '@/lib/db'
 import PropertyForm from '@/components/properties/Form'
-import RoomForm from '@/components/rooms/Form'
+// import RoomForm from '@/components/rooms/Form'
 
 export default function PropertyPage({property}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const modals = useModals()
@@ -21,15 +21,15 @@ export default function PropertyPage({property}: InferGetServerSidePropsType<typ
 		})
 	}
 
-	const openCreateRoomModal = () => {
-		const id = modals.openModal({
-			title: 'Add Room',
-			children: <RoomForm
-				property={property}
-				close={() => modals.closeModal(id)}
-			/>,
-		})
-	}
+	// const openCreateRoomModal = () => {
+	// 	const id = modals.openModal({
+	// 		title: 'Add Room',
+	// 		children: <RoomForm
+	// 			property={property}
+	// 			close={() => modals.closeModal(id)}
+	// 		/>,
+	// 	})
+	// }
 
 	return (
 		<Container size='md' className='mb-10'>
@@ -47,9 +47,9 @@ export default function PropertyPage({property}: InferGetServerSidePropsType<typ
 				</Button>
 			</Group> */}
 			<Title className='mt-5 mb-2 font-medium text-xl'>Rooms</Title>
-			<Button className='rounded-md' size='sm' variant='light' onClick={openCreateRoomModal}>
+			{/* <Button className='rounded-md' size='sm' variant='light' onClick={openCreateRoomModal}>
 				Add Room
-			</Button>
+			</Button> */}
 			<Title className='mt-5 mb-2 font-medium text-xl'>Transaction History</Title>
 			{/* {property.transactions.map((t) => (<TransactionCard transaction={t} />))} */}
 		</Container>
